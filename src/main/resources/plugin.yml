@@ -1,0 +1,21 @@
+name: DailyQuestsRPG
+version: '1.0.0'
+main: dev.dailyquests.DailyQuestsRPG
+api-version: '1.21'
+description: Misiones diarias con NPCs, recompensas escalables y corazones extra.
+author: TuNombre
+softdepend: [Citizens]
+
+commands:
+  quest:
+    description: Comando principal de DailyQuestsRPG
+    usage: /<command> [open|npc|weeklyevent|reload]
+    aliases: [dq, misiones]
+
+permissions:
+  dailyquests.use:
+    description: Abrir el menú de misiones
+    default: true
+  dailyquests.admin:
+    description: Administrar NPCs, eventos y recarga
+    default: op

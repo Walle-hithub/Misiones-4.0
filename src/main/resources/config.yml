@@ -1,0 +1,468 @@
+settings:
+  timezone: "UTC"        # Zona horaria usada para el reinicio diario
+  reset-hour: 0          # Hora local (0-23) a la que se reinician las misiones
+  week-start-day: MONDAY       # Día en que se reinician las misiones semanales (MONDAY..SUNDAY)
+  hard-quests-enabled: true   # Valor inicial; después manda /quest hard on|off (se guarda en state.yml)
+
+npc:
+  name: "&6&lMaestro de Misiones"
+
+# Cuántas misiones de cada dificultad se sortean cada día (misma selección para todos los jugadores)
+daily-quests:
+  easy: 3
+  normal: 3
+  hard: 2
+
+# Cuántas misiones SEMANALES se sortean por dificultad (se reinician cada semana)
+weekly-quests:
+  easy: 1
+  normal: 1
+  hard: 1
+
+# Las semanales usan los mismos pools de recompensa de su dificultad, pero mejorados:
+weekly:
+  xp-multiplier: 3.0     # XP x3
+  extra-rewards: 2       # +2 premios aleatorios extra
+  currency-multiplier: 3.0   # Rincones x3 (solo sobre la cantidad por dificultad)
+
+# ------------------------------------------------------------------------------------------
+# MONEDA: se da SIEMPRE al entregar una misión, además de la XP y los premios aleatorios.
+# Cantidad por dificultad: número fijo ("5") o rango ("2-4").
+# Una misión concreta puede tener su propia cantidad con la clave  coins: "10"  (o "8-12"),
+# o en el juego con  /quest reward <id> coins <n|min-max>  (solo misiones creadas con /quest create).
+# ------------------------------------------------------------------------------------------
+currency:
+  enabled: true
+  material: AMETHYST_SHARD
+  name: "&d&lRincones"
+  lore:
+    - "&7Moneda de los Rincones"
+  amount:
+    easy: "2-4"
+    normal: "6-10"
+    hard: "15-25"
+
+hearts:
+  hard-chance: 0.15      # 15% en misiones Difíciles
+  event-chance: 1.0      # Misión del evento semanal (1.0 = garantizado)
+  max-extra: 10          # Máximo de corazones extra permanentes por jugador
+
+# ------------------------------------------------------------------------------------------
+# RECOMPENSAS (sin dinero): XP aleatoria + "count" premios aleatorios del pool (sin repetir).
+# Cada premio: item, amount (número o rango "8-16"), weight (más peso = más probable),
+# enchants (opcional, "nombre:nivel"; admite niveles por encima del máximo vanilla).
+# ------------------------------------------------------------------------------------------
+rewards:
+  easy:
+    xp: "60-120"
+    count: 2
+    description: "Minerales y comida"
+    pool:
+      - {item: IRON_INGOT, amount: "8-16", weight: 4}
+      - {item: GOLD_INGOT, amount: "4-8", weight: 2}
+      - {item: COPPER_INGOT, amount: "16-32", weight: 1}
+      - {item: COAL, amount: "16-32", weight: 2}
+      - {item: REDSTONE, amount: "16-32", weight: 1}
+      - {item: LAPIS_LAZULI, amount: "8-16", weight: 1}
+      - {item: COOKED_BEEF, amount: "12-24", weight: 4}
+      - {item: COOKED_PORKCHOP, amount: "12-24", weight: 3}
+      - {item: BREAD, amount: "16-32", weight: 2}
+      - {item: BAKED_POTATO, amount: "16-24", weight: 2}
+      - {item: GOLDEN_CARROT, amount: "8-16", weight: 1}
+      - {item: EXPERIENCE_BOTTLE, amount: "4-8", weight: 1}
+
+  normal:
+    xp: "150-300"
+    count: 2
+    description: "Ítems útiles y libros encantados"
+    pool:
+      - {item: DIAMOND, amount: "1-3", weight: 3}
+      - {item: GOLDEN_APPLE, amount: "1-3", weight: 4}
+      - {item: EMERALD, amount: "4-8", weight: 2}
+      - {item: ENDER_PEARL, amount: "4-8", weight: 2}
+      - {item: EXPERIENCE_BOTTLE, amount: "16-32", weight: 3}
+      - {item: ARROW, amount: "32-64", weight: 1}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["protection:3"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["sharpness:4"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["efficiency:4"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["unbreaking:3"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 1, enchants: ["feather_falling:4"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 1, enchants: ["fortune:3"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 1, enchants: ["looting:3"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 1, enchants: ["power:4"]}
+
+  hard:
+    xp: "400-800"
+    count: 2
+    description: "Manzanas de oro encantadas y libros de nivel máximo"
+    pool:
+      - {item: ENCHANTED_GOLDEN_APPLE, amount: "1-2", weight: 5}
+      - {item: DIAMOND, amount: "4-8", weight: 3}
+      - {item: NETHERITE_SCRAP, amount: "2-4", weight: 2}
+      - {item: NETHERITE_INGOT, amount: 1, weight: 1}
+      - {item: TOTEM_OF_UNDYING, amount: 1, weight: 2}
+      - {item: EXPERIENCE_BOTTLE, amount: "32-64", weight: 2}
+      - {item: DIAMOND_CHESTPLATE, amount: 1, weight: 1, enchants: ["protection:4", "unbreaking:3", "mending:1"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 4, enchants: ["protection:5"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 1, enchants: ["protection:6"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["blast_protection:5"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["projectile_protection:5"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 3, enchants: ["sharpness:6"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 3, enchants: ["efficiency:6"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 3, enchants: ["unbreaking:4"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 3, enchants: ["mending:1"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["fortune:4"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["looting:4"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 2, enchants: ["power:6"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 1, enchants: ["thorns:4"]}
+      - {item: ENCHANTED_BOOK, amount: 1, weight: 1, enchants: ["feather_falling:5"]}
+
+# ------------------------------------------------------------------------------------------
+# MISIONES. target: una lista de materiales / tipos de entidad / IDs de jefe.
+# amount: número o rango "24-48" (se sortea cada día, igual para todos). display e icon son opcionales.
+# type: COLLECT (collect-mode BREAK = picar bloque | PICKUP = recoger ítem) | KILL | BOSS
+# ------------------------------------------------------------------------------------------
+quests:
+  # ---------------- FÁCILES ----------------
+  carbon_facil:
+    name: "&aMinero novato"
+    difficulty: EASY
+    type: COLLECT
+    target: [COAL_ORE, DEEPSLATE_COAL_ORE]
+    display: "Carbón"
+    icon: COAL
+    amount: "24-48"
+  cobre_facil:
+    name: "&aTecho de cobre"
+    difficulty: EASY
+    type: COLLECT
+    target: [COPPER_ORE, DEEPSLATE_COPPER_ORE]
+    display: "Cobre"
+    icon: COPPER_INGOT
+    amount: "16-32"
+  trigo_facil:
+    name: "&aCosecha del día"
+    difficulty: EASY
+    type: COLLECT
+    target: [WHEAT]
+    display: "Trigo"
+    amount: "32-64"
+  madera_facil:
+    name: "&aLeñador"
+    difficulty: EASY
+    type: COLLECT
+    target: [OAK_LOG, BIRCH_LOG, SPRUCE_LOG, JUNGLE_LOG, ACACIA_LOG, DARK_OAK_LOG]
+    display: "Troncos"
+    icon: OAK_LOG
+    amount: "32-64"
+  zombies_facil:
+    name: "&aPurga de zombies"
+    difficulty: EASY
+    type: KILL
+    target: [ZOMBIE]
+    display: "Zombies"
+    icon: ROTTEN_FLESH
+    amount: "8-15"
+  vacas_facil:
+    name: "&aGanadero"
+    difficulty: EASY
+    type: KILL
+    target: [COW]
+    display: "Vacas"
+    icon: BEEF
+    amount: "6-12"
+  cerdos_facil:
+    name: "&aGranja de cerdos"
+    difficulty: EASY
+    type: KILL
+    target: [PIG]
+    display: "Cerdos"
+    icon: PORKCHOP
+    amount: "6-12"
+  aranas_facil:
+    name: "&aPlaga de arañas"
+    difficulty: EASY
+    type: KILL
+    target: [SPIDER]
+    display: "Arañas"
+    icon: STRING
+    amount: "6-12"
+
+  # ---------------- NORMALES ----------------
+  hierro_normal:
+    name: "&eFundición"
+    difficulty: NORMAL
+    type: COLLECT
+    target: [IRON_ORE, DEEPSLATE_IRON_ORE]
+    display: "Hierro"
+    icon: IRON_INGOT
+    amount: "24-40"
+  oro_normal:
+    name: "&eFiebre del oro"
+    difficulty: NORMAL
+    type: COLLECT
+    target: [GOLD_ORE, DEEPSLATE_GOLD_ORE, NETHER_GOLD_ORE]
+    display: "Oro"
+    icon: GOLD_INGOT
+    amount: "12-20"
+  redstone_normal:
+    name: "&eIngeniero"
+    difficulty: NORMAL
+    type: COLLECT
+    target: [REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE]
+    display: "Redstone"
+    icon: REDSTONE
+    amount: "20-32"
+  lapis_normal:
+    name: "&eEncantador"
+    difficulty: NORMAL
+    type: COLLECT
+    target: [LAPIS_ORE, DEEPSLATE_LAPIS_ORE]
+    display: "Lapislázuli"
+    icon: LAPIS_LAZULI
+    amount: "12-24"
+  esqueletos_normal:
+    name: "&eHuesos y flechas"
+    difficulty: NORMAL
+    type: KILL
+    target: [SKELETON]
+    display: "Esqueletos"
+    icon: BONE
+    amount: "15-25"
+  creepers_normal:
+    name: "&eDesactivador"
+    difficulty: NORMAL
+    type: KILL
+    target: [CREEPER]
+    display: "Creepers"
+    icon: GUNPOWDER
+    amount: "8-14"
+  endermen_normal:
+    name: "&eCazador de endermen"
+    difficulty: NORMAL
+    type: KILL
+    target: [ENDERMAN]
+    display: "Endermen"
+    icon: ENDER_PEARL
+    amount: "5-8"
+  blazes_normal:
+    name: "&eFuego del Nether"
+    difficulty: NORMAL
+    type: KILL
+    target: [BLAZE]
+    display: "Blazes"
+    icon: BLAZE_ROD
+    amount: "8-12"
+  brujas_normal:
+    name: "&eCaza de brujas"
+    difficulty: NORMAL
+    type: KILL
+    target: [WITCH]
+    display: "Brujas"
+    icon: GLASS_BOTTLE
+    amount: "3-5"
+
+  # ---------------- DIFÍCILES ----------------
+  diamantes_dificil:
+    name: "&cFiebre de diamantes"
+    difficulty: HARD
+    type: COLLECT
+    target: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE]
+    display: "Diamantes"
+    icon: DIAMOND
+    amount: "8-14"
+  esmeraldas_dificil:
+    name: "&cRey de las esmeraldas"
+    difficulty: HARD
+    type: COLLECT
+    target: [EMERALD_ORE, DEEPSLATE_EMERALD_ORE]
+    display: "Esmeraldas"
+    icon: EMERALD
+    amount: "4-8"
+  escombros_dificil:
+    name: "&cArqueólogo del Nether"
+    difficulty: HARD
+    type: COLLECT
+    target: [ANCIENT_DEBRIS]
+    display: "Restos antiguos"
+    amount: "3-6"
+  wither_skeletons_dificil:
+    name: "&cCazador de esqueletos wither"
+    difficulty: HARD
+    type: KILL
+    target: [WITHER_SKELETON]
+    display: "Esqueletos wither"
+    icon: WITHER_SKELETON_SKULL
+    amount: "10-15"
+  evokers_dificil:
+    name: "&cTótem de la victoria"
+    difficulty: HARD
+    type: KILL
+    target: [EVOKER]
+    display: "Evocadores"
+    icon: TOTEM_OF_UNDYING
+    amount: "4-6"
+  ravagers_dificil:
+    name: "&cDestructor de devastadores"
+    difficulty: HARD
+    type: KILL
+    target: [RAVAGER]
+    display: "Devastadores"
+    icon: SADDLE
+    amount: "3-5"
+  jefe_wither:
+    name: "&4Verdugo del Wither"
+    difficulty: HARD
+    type: BOSS
+    target: [WITHER]
+    display: "Wither"
+    icon: NETHER_STAR
+    amount: 1
+  jefe_dragon:
+    name: "&4Matadragones"
+    difficulty: HARD
+    type: BOSS
+    target: [ENDER_DRAGON]
+    display: "Dragón del End"
+    icon: DRAGON_HEAD
+    amount: 1
+  jefe_warden:
+    name: "&4Silencio en las profundidades"
+    difficulty: HARD
+    type: BOSS
+    target: [WARDEN]
+    display: "Warden"
+    icon: ECHO_SHARD
+    amount: 1
+  jefe_guardian:
+    name: "&4Cazador de monumentos"
+    difficulty: HARD
+    type: BOSS
+    target: [ELDER_GUARDIAN]
+    display: "Guardián ancestral"
+    icon: PRISMARINE_SHARD
+    amount: 1
+
+  # ======================= SEMANALES (period: WEEKLY) =======================
+  semanal_carbon:
+    name: "&b[Semanal] &aMontaña de carbón"
+    period: WEEKLY
+    difficulty: EASY
+    type: COLLECT
+    target: [COAL_ORE, DEEPSLATE_COAL_ORE]
+    display: "Carbón"
+    icon: COAL_BLOCK
+    amount: "200-300"
+  semanal_zombies:
+    name: "&b[Semanal] &aApocalipsis zombi"
+    period: WEEKLY
+    difficulty: EASY
+    type: KILL
+    target: [ZOMBIE]
+    display: "Zombies"
+    icon: ROTTEN_FLESH
+    amount: "60-100"
+  semanal_hierro:
+    name: "&b[Semanal] &eGran fundición"
+    period: WEEKLY
+    difficulty: NORMAL
+    type: COLLECT
+    target: [IRON_ORE, DEEPSLATE_IRON_ORE]
+    display: "Hierro"
+    icon: IRON_BLOCK
+    amount: "120-200"
+  semanal_esqueletos:
+    name: "&b[Semanal] &eCementerio de huesos"
+    period: WEEKLY
+    difficulty: NORMAL
+    type: KILL
+    target: [SKELETON]
+    display: "Esqueletos"
+    icon: BONE
+    amount: "50-80"
+  semanal_blazes:
+    name: "&b[Semanal] &eRey del Nether"
+    period: WEEKLY
+    difficulty: NORMAL
+    type: KILL
+    target: [BLAZE]
+    display: "Blazes"
+    icon: BLAZE_ROD
+    amount: "40-60"
+  semanal_diamantes:
+    name: "&b[Semanal] &cMina de diamantes"
+    period: WEEKLY
+    difficulty: HARD
+    type: COLLECT
+    target: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE]
+    display: "Diamantes"
+    icon: DIAMOND_BLOCK
+    amount: "40-64"
+  semanal_wither_skeletons:
+    name: "&b[Semanal] &cCosecha de cráneos"
+    period: WEEKLY
+    difficulty: HARD
+    type: KILL
+    target: [WITHER_SKELETON]
+    display: "Esqueletos wither"
+    icon: WITHER_SKELETON_SKULL
+    amount: "40-60"
+  semanal_jefes:
+    name: "&b[Semanal] &4Cazador de jefes"
+    period: WEEKLY
+    difficulty: HARD
+    type: BOSS
+    target: [WITHER, WARDEN, ENDER_DRAGON, ELDER_GUARDIAN]
+    display: "jefes (Wither, Warden, Dragón o Guardián)"
+    icon: NETHER_STAR
+    amount: "2-3"
+
+messages:
+  prefix: "&8[&6Misiones&8] &7"
+  players-only: "&cSolo jugadores pueden usar este comando."
+  no-permission: "&cNo tienes permiso."
+  gui-title: "&8Misiones Diarias"
+  quest-progress: "&e%quest% &7- &f%current%/%amount%"
+  quest-ready: "&e¡Misión lista! &f%quest% &7- Entrégala al NPC de misiones para cobrar."
+  quest-not-ready: "&cEsa misión todavía no está lista."
+  nothing-to-deliver: "&7No tienes misiones listas para entregar."
+  quest-complete: "&a¡Misión completada! &f%quest% &7(+%xp% XP)"
+  rewards-header: "&6Recompensas recibidas:"
+  reward-line: "&7  + &f%reward%"
+  heart-gained: "&c❤ ¡Has obtenido un corazón extra permanente! &7(Corazones extra: %hearts%)"
+  heart-max: "&7Ya tienes el máximo de corazones extra."
+  daily-reset: "&aLas misiones diarias se han reiniciado."
+  weekly-reset: "&bLas misiones semanales se han reiniciado."
+  event-started: "&d★ ¡Evento especial! &fCompleta &e%quest% &fpara una recompensa de corazón extra."
+  event-ended: "&7El evento especial ha terminado."
+  npc-created: "&aEntidad convertida en NPC de misiones."
+  npc-spawned: "&aNPC de misiones creado."
+  npc-removed: "&aNPC de misiones eliminado."
+  npc-not-found-npc: "&cMira directamente a un NPC de misiones (máx. 8 bloques)."
+  npc-released: "&aEl NPC volvió a ser una entidad normal."
+  npc-moved: "&aNPC movido a tu posición."
+  npc-renamed: "&aNombre del NPC cambiado."
+  usage-rename: "&7Uso: &f/quest npc rename <nombre> &7(admite colores con &)"
+  quest-created: "&aMisión &f%quest% &acreada y activa hoy. Elige su recompensa con &f/quest reward %id% <item|xp|clear>&a."
+  quest-exists: "&cYa existe una misión con el id %id%."
+  invalid-id: "&cEl id solo puede tener letras minúsculas, números y _"
+  invalid-target: "&cObjetivo inválido: %target%"
+  invalid-amount: "&cCantidad inválida (usa un número o un rango como 5-10)."
+  quest-deleted: "&aMisión eliminada: &f%id%"
+  quest-not-custom: "&cSolo puedes editar o borrar misiones creadas con /quest create."
+  hold-item: "&cSostén en la mano el ítem que quieres dar como recompensa."
+  reward-item-added: "&aRecompensa añadida: &f%reward%"
+  reward-xp-set: "&aXP de recompensa: &f%xp%"
+  reward-cleared: "&aRecompensas personalizadas borradas (vuelve al sorteo normal)."
+  usage-create: "&7Uso: &f/quest create <id> <easy|normal|hard> <collect|pickup|kill|boss|player> <objetivo> <cantidad|min-max> [nombre]"
+  usage-period: "&7Uso: &f/quest period <id> <daily|weekly>"
+  quest-period-set: "&aLa misión &f%id% &aahora es &f%period%&a."
+  reward-coins-set: "&aRincones de recompensa: &f%amount%"
+  usage-reward: "&7Uso: &f/quest reward <id> <item|xp <n>|coins <n|min-max>|clear>"
+  npc-not-found: "&cMira directamente a una entidad (máx. 8 bloques)."
+  unknown-quest: "&cMisión desconocida: %quest%"
+  reloaded: "&aConfiguración recargada."
+  hard-enabled: "&aLas misiones difíciles han sido activadas."
+  hard-disabled: "&cLas misiones difíciles han sido desactivadas."
+  hard-status: "&7Misiones difíciles: &f%state%"
+  usage: "&7Uso: &f/quest [open|npc <create|spawn|remove|move|rename|release>|create|reward|period|delete|weeklyevent|hard|reload]"
